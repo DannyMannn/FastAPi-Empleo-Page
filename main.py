@@ -6,13 +6,17 @@ from modelo import Empleo
 from modelo import EmpleoRequestModel, EmpleoResponseModel
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
 
 # Crear Aplicación
 app = FastAPI(title="Empleos Pagina Web", description="Pagina Web de Empleos", version="1.0.0")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+StaticFiles(directory="static")
 
 # Para levantar el servidor: uvicorn main:app --reload, o el nombre de tu archivo si no es main.
 
-templates = Jinja2Templates (directory="../templates")
+templates = Jinja2Templates (directory="templates")
 
 # que debe hacer el servidor antes de iniciar
 @app.on_event('startup')
