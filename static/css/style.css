@@ -11,6 +11,14 @@
     background-color: #0c81ff !important;
 }
 
+.bg-cyan{
+    background: #75e935;
+}
+
+.bg-red{
+    background: #FF8A8A;
+}
+
 /* FORM CONTAINER */
 .form-container{
     padding: 20px;
