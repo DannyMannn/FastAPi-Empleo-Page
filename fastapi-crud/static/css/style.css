@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.document{
+    max-width: 1400px;
+    padding: 15px 25px;
+    margin: 15px auto;
+}
+.btn-primary{
+    background-color: #0c81ff !important;
+}
+
+.bg-cyan{
+    background: #75e935;
+}
+
+.bg-red{
+    background: #FF8A8A;
+}
+
+/* FORM CONTAINER */
+.form-container{
+    padding: 20px;
+    max-width: 75%;
+    margin: 0 auto;
+    padding: 0 auto;
+}
+/*home*/
+.portada{
+    width: 90%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.rounded-border{
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 800px){
+    .form-container{
+        max-width: 100%;
+    }
+}
+
+.bg-lightgrey{
+    background: #F5F5F5;
+}
+
+/* FLEX CONTAINER FOR CARDS (USERS/TASKS)*/
+
+.my-card-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* This is so we don't collide with bootstraps .card class*/
+.my-card{
+    min-width: 250px;
+    max-width: 350px;
+
+    min-height: 250px;
+    max-height: 350px;
+
+    padding: 20px;
+    margin: 15px;
+    overflow: auto;
+}
+
+.my-a{
+    text-decoration: none;
+    color: black;
+    transition: 0.5s;
+}
+
+.my-a:hover{
+    color: black;
+    background: lightgray;
+}
+
+/*user info*/
+.user-box{
+    -webkit-box-shadow: 0 0 5px 2px #bfc0c0;
+    -moz-box-shadow: 0 0 5px 2px #bfc0c0;
+    box-shadow: 0 0 5px 2px #bfc0c0;
+    width: 75%;
+    height: auto;
+    margin: 5em auto 3em;
+    box-sizing: border-box;
+}
+.info-user{
+    padding: 30px;
+    text-align: center;
+}
+
+.img-user{
+    border-radius: 50%;
+    border: 5px solid #495057;
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: 105px;
+}
+.pic{
+    width: 120px;
+    height: 120px;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+.my-text-right{
+    text-align: end;
+}
+
+.my-text-left{
+    text-align: left;
+}
+
+.my-text-center{
+    text-align: center;
+}
+
+@media screen and (max-width: 1000px){
+    .user-box{
+        width: 100%;
+    }
+}

@@ -1,20 +1,29 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Request
+from pydantic import BaseModel # Para definir esquemas y reglas para los modelos
 from typing import Optional, Text
 from datetime import datetime
-from uuid import uuid4 as uuid
+from uuid import uuid4 as uuid # Crea un objeto uuid que es una cadena de caracteres aleatorios. uuid genera una ID único.
 import uvicorn
 
-app = FastAPI()
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
-posts = []
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+StaticFiles(directory="static")
+
+templates = Jinja2Templates (directory="templates")
+
+# Arreglo global que guarda diccionarios (cada diccionario representa un objeto de la BD)
+empleos = []
 
 # Post model
-class Post(BaseModel):
+class Empleo(BaseModel):
     id: Optional[str]
-    title: str
-    author: str
-    content: Text
+    puesto: str
+    empresa: str
+    pagoMensual: str
     created_at: datetime =  datetime.now()
     published_at: Optional[datetime] 
     published: Optional[bool] = False
@@ -23,40 +32,48 @@ class Post(BaseModel):
 def read_root():
     return {"welcome": "Welcome to my API"}
 
-@app.get('/posts')
-def get_posts():
-    return posts
+@app.get('/empleos', response_class = HTMLResponse)
+async def getEmpleos(request: Request):
 
-@app.post('/posts')
-def save_post(post: Post):
+    context = { 'request': request, 'empleos':empleos }
+    return templates.TemplateResponse("empleos.html", context)
+
+@app.post('/empleos')
+async def save_empleos(post: Empleo):
+    # formdata = await request.form() # dato del formulario HTML
+    # empleo = {}
+    # empleo["puesto"] = formdata["puesto"]
+    # empleo["pagoMensual"] = formdata["pagoMensual"]
+    # empleo["empresa"] = formdata["empresa"]
+    # empleo["id"] = str(uuid())
+    # empleos.append(empleo)
+    #return RedirectResponse("/empleos",303) # redirecciona a la página índice
+    
     post.id = str(uuid())
-    posts.append(post.dict())
-    return posts[-1]
+    empleos.append(post.dict())
+    return empleos[-1]
 
-@app.get('/posts/{post_id}')
-def get_post(post_id: str):
-    for post in posts:
-        if post["id"] == post_id:
-            return post
+@app.get('/empleos/{empleo_id}')
+def get_empleo(empleo_id: str):
+    for empleo in empleos:
+        if empleo["id"] == empleo_id:
+            return empleo
     raise HTTPException(status_code=404, detail="Item not found")
 
-@app.delete('/posts/{post_id}')
-def delete_post(post_id: str):
-    for index, post in enumerate(posts):
-        if post["id"] == post_id:
-            posts.pop(index)
-            return {"message": "Post has been deleted succesfully"}
+@app.delete('/borrarEmpleo/{empleo_id}')
+def delete_empleo(empleo_id: str):
+    for index, post in enumerate(empleos):
+        if post["id"] == empleo_id:
+            empleos.pop(index)
+            return {"message": "Empleo has been deleted succesfully"}
     raise HTTPException(status_code=404, detail="Item not found")
 
-@app.put('/posts/{post_id}')
-def update_post(post_id: str, updatedPost: Post):
-    for index, post in enumerate(posts):
-        if post["id"] == post_id:
-            posts[index]["title"]= updatedPost.dict()["title"]
-            posts[index]["content"]= updatedPost.dict()["content"]
-            posts[index]["author"]= updatedPost.dict()["author"]
-            return {"message": "Post has been updated succesfully"}
+@app.put('/empleos/{empleo_id}')
+def update_empleo(empleo_id: str, updatedEmpleo: Empleo):
+    for index, post in enumerate(empleos):
+        if post["id"] == empleo_id:
+            empleos[index]["puesto"]= updatedEmpleo.dict()["puesto"]
+            empleos[index]["pagoMensual"]= updatedEmpleo.dict()["pagoMensual"]
+            empleos[index]["empresa"]= updatedEmpleo.dict()["empresa"]
+            return {"message": "Empleo has been updated succesfully"}
     raise HTTPException(status_code=404, detail="Item not found")
-
-
-
