@@ -39,16 +39,7 @@ async def getEmpleos(request: Request):
     return templates.TemplateResponse("empleos.html", context)
 
 @app.post('/empleos')
-async def save_empleos(post: Empleo):
-    # formdata = await request.form() # dato del formulario HTML
-    # empleo = {}
-    # empleo["puesto"] = formdata["puesto"]
-    # empleo["pagoMensual"] = formdata["pagoMensual"]
-    # empleo["empresa"] = formdata["empresa"]
-    # empleo["id"] = str(uuid())
-    # empleos.append(empleo)
-    #return RedirectResponse("/empleos",303) # redirecciona a la página índice
-    
+def save_empleos(post: Empleo):
     post.id = str(uuid())
     empleos.append(post.dict())
     return empleos[-1]
